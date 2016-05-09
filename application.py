@@ -16,27 +16,20 @@ def hello(name=None):
 @application.route('/index', methods=['GET', 'POST'])
 def index(name=None):
     if request.method == 'POST':
-        #c = s.connect_db()
-        #res = s.filter(c, text=request.form['product'], category=request.form['category'])
+        c = s.connect_db()
+        res = s.filterLen(c, request.form['product'], request.form['category'])
+        res2 = s.filter(c, request.form['product'], request.form['category'])
         tweets = []
-        #tweets = []
-        #for r in res:
-        #    if(not str(r[2].encode("ascii", "ignore")) == "None"):
-        #    	st = ""
-        #    	st = "['" + r[0] + "','" + r[1] + "'," + r[2] + "]"
-        #    	tweets.append(st.encode("ascii","ignore"))
-                #tweets.append(format_js(r))
+        #positive_text=[]
+        #neutral_text=[]
+        negative_text=[]
 
-
-        #send = "[" + "], [".join(str(", ".join(str(y) for y in x)) for x in tweets) + "]"
-        #send = ", ".join(str(x) for x in tweets)
-        #send = "[" + send + "]"
-        #js array [a,b,c]
-        #populate google map
-        return render_template('index.html', tweets=[1,2,3])
+        print res
+#return render_template('index.html', tweets=res, negative_text=res2[2])
+        return render_template('index.html', tweets=res, negative_text=res2)
     else:
-        return render_template('index.html', tweets=[])
+        return render_template('index.html', tweets=[], negative_text=[])
 
 if __name__ == '__main__':
-    application.debug = False 
+    application.debug = True
     application.run(host='0.0.0.0')
